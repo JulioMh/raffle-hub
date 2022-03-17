@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "tests/**/*.ts",
+    "bin/**/*.ts",
+    "lib/**/*.ts",
+    "resources/**/*.ts",
+  ],
+  "exclude": [
+    ".eslintrc.js", 
+    "jest.config.js",
+    "node_modules",
+    "cdk.out",
+    "build/**/*",
+    "dist/**/*",
+    "resources/lambda/layers/sdk",
+  ]
+}

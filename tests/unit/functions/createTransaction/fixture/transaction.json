@@ -1,0 +1,15 @@
+{
+  "service": "crypto",
+  "transactionUuid": "013faa4d-5acf-48c5-a93e-1bedbd8db6b3",
+  "userUuid": "414bcf25-8a73-4da4-ba33-c98fc82e4e80",
+  "currency": "GBP",
+  "amount": 100,
+  "direction": "outflow",
+  "timestamp": 123445385,
+  "webhook": {
+    "url": "check/nft",
+    "options": {
+      "method": "GET"
+    }
+  }
+}

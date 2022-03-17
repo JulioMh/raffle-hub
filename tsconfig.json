@@ -1,0 +1,63 @@
+{
+  "ts-node": {
+    "transpileOnly": true
+  },
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": [
+      "ES2020"
+    ],
+    "declaration": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": false,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "build",
+    "rootDir": "./",
+    "rootDirs": ["/opt/"],
+    "baseUrl": ".",
+    "paths": {
+      "/opt/*": [
+        "resources/lambda/layers/ledger/*",
+        "resources/lambda/layers/sdk/*"
+      ],
+      "aws-sdk*": [
+        "resources/lambda/layers/sdk/nodejs/node_modules/aws-sdk*"
+      ],
+      "validator*": [
+        "resources/lambda/layers/sdk/nodejs/node_modules/@types/validator*",
+        "resources/lambda/layers/sdk/nodejs/node_modules/validator*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "cdk.out",
+    "build/**/*",
+    "dist/**/*",
+    "resources/lambda/layers/sdk"
+  ],
+  "include": [
+    "./",
+    "**/package.json"
+  ]
+}

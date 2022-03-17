@@ -1,0 +1,25 @@
+{
+  "name": "raffle-hub-sdk",
+  "version": "0.13.0",
+  "description": "",
+  "author": "kilojulio",
+  "license": "ISC",
+  "engines": {
+    "node": ">=14.17.0"
+  },
+  "main": "sdk/index.js",
+  "types": "sdk/index.d.ts",
+  "dependencies": {
+    "amazon-qldb-driver-nodejs": "^2.2.0",
+    "aws-sdk": "~2.908.0",
+    "aws-xray-sdk-core": "^2.5.0",
+    "jimp": "^0.16.1",
+    "lambda-multipart-parser": "^1.0.1",
+    "node-fetch": "^2.6.2",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.5.12",
+    "@types/validator": "^13.7.1"
+  }
+}

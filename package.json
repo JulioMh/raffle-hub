@@ -1,0 +1,70 @@
+{
+  "name": "raffle-hub",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "raffle-hub": "dist/bin/raffle-hub.js"
+  },
+  "engines": {
+    "node": ">=14.17.0"
+  },
+  "scripts": {
+    "start": "echo \"This is a serveless application!\" && exit 0",
+    "prepare": "chmod +x resources/lambda/layers/sdk/bin/config/gitHooks/initialize.sh; resources/lambda/layers/sdk/bin/config/gitHooks/initialize.sh",
+    "prebuild": "rimraf dist",
+    "prebuild:development": "rimraf build",
+    "build": "tsc -project tsconfig.prod.json",
+    "build:development": "tsc",
+    "postbuild": "bash resources/lambda/layers/sdk/bin/config/npm-install-recursive.sh dist",
+    "postbuild:development": "bash resources/lambda/layers/sdk/bin/config/npm-install-recursive.sh build",
+    "watch:development": "tsc -w --preserveWatchOutput",
+    "test": "jest --config tests/jest.config.ts --detectOpenHandles",
+    "test:silent": "jest --config tests/jest.config.ts --silent",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --config tests/jest.config.ts --runInBand",
+    "cdk": "cdk",
+    "clean": "rm -rf dist",
+    "clean:development": "rm -rf build"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-codecommit": "~1.140.0",
+    "@aws-cdk/aws-codepipeline": "~1.140.0",
+    "@aws-cdk/aws-codepipeline-actions": "~1.140.0",
+    "@aws-cdk/aws-dynamodb": "~1.140.0",
+    "@aws-cdk/aws-iam": "~1.140.0",
+    "@aws-cdk/aws-kms": "~1.140.0",
+    "@aws-cdk/aws-lambda": "~1.140.0",
+    "@aws-cdk/aws-sqs": "~1.140.0",
+    "@aws-cdk/core": "~1.140.0",
+    "@aws-cdk/pipelines": "~1.140.0",
+    "@aws-cdk/aws-lambda-event-sources": "~1.140.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.4.7",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "aws-cdk": "~1.140.0",
+    "eslint": "^7.31.0",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-security": "^1.4.0",
+    "jest": "^27.3.1",
+    "jest-dynalite": "^3.4.4",
+    "prettier": "^2.3.2",
+    "ts-jest": "^27.0.7",
+    "ts-node": "^10.1.0",
+    "typescript": "~4.4.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "codecommit::eu-west-2://raffle-hub"
+  },
+  "author": "sync.money",
+  "license": "ISC"
+}

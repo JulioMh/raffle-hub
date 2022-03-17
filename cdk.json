@@ -1,0 +1,75 @@
+{
+  "app": "./dist/bin/raffle-hub.js",
+  "context": {
+    "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": true,
+    "@aws-cdk/core:enableStackNameDuplicates": "true",
+    "@aws-cdk/core:newStyleStackSynthesis": true,
+    "aws-cdk:enableDiffNoFail": "true",
+    "@aws-cdk/core:stackRelativeExports": "true",
+    "@aws-cdk/aws-ecr-assets:dockerIgnoreSupport": true,
+    "@aws-cdk/aws-secretsmanager:parseOwnedSecretName": true,
+    "@aws-cdk/aws-kms:defaultKeyPolicies": true,
+    "@aws-cdk/aws-s3:grantWriteWithoutAcl": true,
+    "@aws-cdk/aws-ecs-patterns:removeDefaultDesiredCount": true,
+    "@aws-cdk/aws-rds:lowercaseDbIdentifier": true,
+    "@aws-cdk/aws-efs:defaultEncryptionAtRest": true,
+    "sbx": {
+      "AWSAccountID": "560644772492",
+      "AWSRegion": "eu-west-2",
+      "App": "ledger-manager",
+      "Environment": "sbx",
+      "Repository": "null",
+      "Branch": "null",
+      "CompiledFolder": "build",
+      "Parameters": {
+        "LAMBDA_LAYER_SYNC_SDK_VERSION_ARN": "arn:aws:lambda:eu-west-2:560644772492:layer:syncSdkLayerD164BCD8:39",
+        "SYNC_USER_PROFILE_URL": "https://uk-users-dev.sync.money/v1/user/profile",
+        "MAX_ATTEMPTS": 2,
+        "LAMBDA_TIMEOUT": 240,
+        "BILLING_MODE": "PROVISIONED",
+        "READ_CAPACITY": 5,
+        "WRITE_CAPACITY": 5
+      }
+    },
+    "dev": {
+      "AWSAccountID": "560644772492",
+      "AWSRegion": "eu-west-2",
+      "App": "ledger-manager",
+      "Environment": "dev",
+      "Repository": "arn:aws:codecommit:eu-west-2:560644772492:raffle-hub",
+      "Branch": "dev",
+      "CompiledFolder": "dist",
+      "Parameters": {
+        "LAMBDA_LAYER_SYNC_SDK_VERSION_ARN": "arn:aws:lambda:eu-west-2:560644772492:layer:syncSdkLayerD164BCD8:39",
+        "LAMBDA_TIMEOUT": 240,
+        "MAX_ATTEMPTS": 2,
+        "SYNC_USER_PROFILE_URL": "https://uk-users-dev.sync.money/v1/user/profile",
+        "BILLING_MODE": "PROVISIONED",
+        "READ_CAPACITY": 5,
+        "WRITE_CAPACITY": 5
+      }
+    },
+    "prod": {
+      "AWSAccountID": "837442251756",
+      "AWSRegion": "eu-west-2",
+      "App": "ledger-manager",
+      "Environment": "prod",
+      "Repository": "arn:aws:codecommit:eu-west-2:837442251756:raffle-hub",
+      "Branch": "master",
+      "CompiledFolder": "dist",
+      "Parameters": {
+        "LAMBDA_LAYER_SYNC_SDK_VERSION_ARN": "arn:aws:lambda:eu-west-2:837442251756:layer:syncSdkLayerD164BCD8:62",
+        "LAMBDA_TIMEOUT": 240,
+        "SYNC_USER_PROFILE_URL": "https://uk-users-dev.sync.money/v1/user/profile",
+        "BILLING_MODE": "PROVISIONED",
+        "READ_CAPACITY": 5,
+        "WRITE_CAPACITY": 5
+      }
+    }
+  },
+  "watch": {
+    "include": [
+      "build"
+    ]
+  }
+}
