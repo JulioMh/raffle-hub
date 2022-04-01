@@ -1,0 +1,17 @@
+{
+  "name": "raffle-hub-shared-layer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kilojulio",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^3.2.3",
+    "oauth-1.0a": "^2.2.6",
+    "redis": "^4.0.6",
+    "uuidv4": "^6.2.13"
+  }
+}
