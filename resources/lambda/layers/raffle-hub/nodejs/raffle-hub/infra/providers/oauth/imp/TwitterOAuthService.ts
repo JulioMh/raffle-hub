@@ -1,14 +1,11 @@
 import { uuid as uuidv4 } from 'uuidv4';
-import { OAuth } from '../../../../domain/OAuth';
-import { OAuthService, OAuthServiceProps } from '../OAuthService';
+import { OAuthProvider, TwitterOAuth } from '../../../../domain/user/Credentials';
+import { OAuthService } from '../OAuthService';
 import config from '../../../../config';
 import { HttpUtils } from '/opt/nodejs/sdk/utils/http';
 
-const { clientId, clientSecret, scope, baseUrl } = config.twitter;
-
-interface TwitterOAuthServiceProps extends OAuthServiceProps {
-  codeChallenge: string;
-}
+const { clientId, scope, baseUrl } = config.twitter;
+const { baseRedirectUri } = config.app;
 
 interface TwitterResponse {
   access_token: string;
@@ -16,27 +13,25 @@ interface TwitterResponse {
   expires_in: number;
 }
 
-export class TwitterOAuth extends OAuthService {
-  protected codeChallenge: string;
+export class TwitterOAuthService extends OAuthService {
+  readonly codeChallenge: string;
   protected codeChallengeMethod: string;
 
-  constructor({ codeChallenge = uuidv4(), state }: TwitterOAuthServiceProps) {
+  constructor(codeChallenge = uuidv4()) {
     super({
       clientId,
-      clientSecret,
       scope,
-      state,
       refreshTokenUrl: `${baseUrl}/2/oauth2/token`,
       requestTokenUrl: `${baseUrl}/2/oauth2/token`,
-      redirectUri: '',
+      redirectUri: `${baseRedirectUri}/twitter`,
     });
     this.codeChallenge = codeChallenge;
     this.codeChallengeMethod = 'plain';
   }
 
-  buildAuthorizeUrl(): string {
+  getAuthorizeUrl(userUuid: string): string {
     const encodedScope = this.scope.join('%20');
-    return `${baseUrl}/i/oauth2/authorize?response_type=${this.responseType}&client_id=${this.clientId}&redirect_uri=${this.redirectUri}&scope=${encodedScope}&state=${this.state}&code_challenge=${this.codeChallenge}&code_challenge_method=${this.codeChallengeMethod}`;
+    return `${baseUrl}/i/oauth2/authorize?response_type=${this.responseType}&client_id=${this.clientId}&redirect_uri=${this.redirectUri}/${userUuid}&scope=${encodedScope}&state=${this.state}&code_challenge=${this.codeChallenge}&code_challenge_method=${this.codeChallengeMethod}`;
   }
 
   buildRequestTokenBody(code: string): string {
@@ -60,12 +55,13 @@ export class TwitterOAuth extends OAuthService {
     return HttpUtils.encodeBody(body);
   }
 
-  adaptResponse({ access_token, refresh_token, expires_in }: TwitterResponse): OAuth {
+  adaptResponse({ access_token, refresh_token, expires_in }: TwitterResponse): TwitterOAuth {
     const currentDate = new Date();
     return {
       expireDate: new Date(currentDate.setSeconds(currentDate.getSeconds() + expires_in)),
       accessToken: access_token,
       refreshToken: refresh_token,
+      type: OAuthProvider.TWITTER,
     };
   }
 }

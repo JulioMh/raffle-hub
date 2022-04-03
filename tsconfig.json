@@ -37,7 +37,7 @@
     "baseUrl": ".",
     "paths": {
       "/opt/*": [
-        "resources/lambda/layers/ledger/*",
+        "resources/lambda/layers/raffle-hub/*",
         "resources/lambda/layers/sdk/*"
       ],
       "aws-sdk*": [

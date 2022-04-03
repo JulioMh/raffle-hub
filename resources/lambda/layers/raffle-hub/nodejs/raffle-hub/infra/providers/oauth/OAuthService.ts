@@ -1,26 +1,26 @@
 import fetch from 'node-fetch';
 import { uuid as uuidv4 } from 'uuidv4';
-import { OAuthRepository } from '../../repositories/OAuthRepository';
 import { ContentType } from '/opt/nodejs/sdk/utils/http';
-import { OAuth } from '../../../domain/OAuth';
+import { OAuth } from '../../../domain/user/Credentials';
 
 export interface OAuthServiceProps {
   scope: string[];
   redirectUri: string;
   clientId: string;
-  clientSecret: string;
+  clientSecret?: string;
   refreshTokenUrl: string;
   requestTokenUrl: string;
+  codeChallenge?: string;
   state?: string;
   responseType?: string;
 }
 
 export abstract class OAuthService {
   protected clientId: string;
-  protected clientSecret: string;
+  protected clientSecret?: string;
 
   protected scope: string[];
-  protected state: string;
+  readonly state: string;
   protected redirectUri: string;
   protected responseType: string;
 
@@ -28,10 +28,8 @@ export abstract class OAuthService {
   protected refreshTokenUrl: string;
   protected revokeTokenUrl: string;
 
-  protected codeChallenge?: string;
+  readonly codeChallenge?: string;
   protected codeChallengeMethod?: string;
-
-  protected oauthRepository: OAuthRepository;
 
   constructor({
     scope,
@@ -53,38 +51,32 @@ export abstract class OAuthService {
     this.refreshTokenUrl = refreshTokenUrl;
   }
 
-  abstract buildAuthorizeUrl(): string;
-  abstract buildRequestTokenBody(code: string): string;
-  abstract buildRefreshTokenBody(refreshToken: string): string;
-  abstract adaptResponse(response: unknown): OAuth;
+  protected abstract buildRequestTokenBody(code: string): string;
+  protected abstract buildRefreshTokenBody(refreshToken: string): string;
+  protected abstract adaptResponse(response: unknown): OAuth;
 
-  async getAuthorizeUrl(userUuid: string): Promise<string> {
-    await this.oauthRepository.saveVerification({
-      userUuid,
-      state: this.state,
-      codeChallenge: this.codeChallenge,
-    });
-
-    return this.buildAuthorizeUrl();
-  }
+  abstract getAuthorizeUrl(userUuid: string): string;
 
   async requestToken(code: string): Promise<OAuth> {
     const response = await fetch(this.requestTokenUrl, {
       method: 'POST',
       body: this.buildRequestTokenBody(code),
-      headers: { 'Content-Type': ContentType.APPLICATION_JSON },
+      headers: { 'Content-Type': ContentType.FORM_URLENCODED },
     });
 
-    return this.adaptResponse(response);
+    const credentials = this.adaptResponse(response);
+
+    return credentials;
   }
 
-  async refreshToken(refreshToken: string): Promise<OAuth> {
+  async refreshToken(userUuid: string, refreshToken: string): Promise<OAuth> {
     const response = await fetch(this.requestTokenUrl, {
       method: 'POST',
       body: this.buildRefreshTokenBody(refreshToken),
-      headers: { 'Content-Type': ContentType.APPLICATION_JSON },
+      headers: { 'Content-Type': ContentType.FORM_URLENCODED },
     });
+    const credentials = this.adaptResponse(response);
 
-    return this.adaptResponse(response);
+    return credentials;
   }
 }

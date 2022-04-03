@@ -1,4 +1,4 @@
-import { User } from '../User';
+import { User } from '../user/User';
 import { Requirement } from './Requirement';
 
 export class HolderRequirement implements Requirement {

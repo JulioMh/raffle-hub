@@ -1,5 +1,3 @@
-import { RedisClientType } from 'redis';
-
 interface Verification {
   userUuid: string;
   state: string;
@@ -7,9 +5,9 @@ interface Verification {
 }
 
 export class OAuthRepository {
-  private client: RedisClientType;
+  private client: any;
 
-  constructor(client: RedisClientType) {
+  constructor(client: any) {
     this.client = client;
   }
 

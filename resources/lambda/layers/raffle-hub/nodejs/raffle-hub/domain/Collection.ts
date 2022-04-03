@@ -6,13 +6,19 @@ export enum Categories {
   DEFI,
   GAMBLING,
 }
+
+interface Discord {
+  guildId: string;
+  holderRoleId: string;
+}
+
 export interface Collection {
   readonly updateAuthority: string;
   readonly name: string;
   readonly description: string;
   readonly image: string;
-  readonly twitter: string;
-  readonly discord: string;
+  readonly discord: Discord;
+  readonly twitter_id: string;
   readonly website: string;
   readonly categories: Categories[];
 }
